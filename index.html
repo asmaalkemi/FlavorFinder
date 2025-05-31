@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlavorFinder | Modern Recipe App</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/awesomplete@1.1.5/awesomplete.css">
+<script src="https://cdn.jsdelivr.net/npm/awesomplete@1.1.5/awesomplete.min.js" defer></script>
+    
+    
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="hey.css">
+    
+    
+   
+   
+   
+
+</head>
+<body>
+    <div id="appView">
+        <header>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="auth-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Login</span>
+                </button>
+                <button id="registerBtn" class="auth-btn primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="8.5" cy="7" r="4"></circle>
+                        <line x1="20" y1="8" x2="20" y2="14"></line>
+                        <line x1="23" y1="11" x2="17" y2="11"></line>
+                    </svg>
+                    <span>Register</span>
+                </button>
+                <div id="userGreeting" style="display:none"></div>
+            </div>
+            
+            <h1>FlavorFinder</h1>
+            <p>Discover recipes from ingredients you have</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by ingredients (e.g. tomato, flour, cheese)" data-list="searchSuggestions">
+            <button id="searchBtn">Find Recipes</button>
+            <button id="imageSearchBtn" class="search-btn-icon" title="Search by image">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+          </button>
+          <input type="file" id="imageUpload" accept="image/*" style="display:none">
+          <div id="debugInfo" style="position:fixed; bottom:20px; left:20px; background:white; padding:10px; z-index:1000;"></div>
+          <div id="searchSuggestion"></div>
+        </div>
+
+        <div class="filter-bar">
+            <button class="filter-btn" data-filter="quick"><span>⚡</span> Quick Meals</button>
+            <button class="filter-btn" data-filter="veg"><span>🌱</span> Vegetarian</button>
+            <button class="filter-btn" data-filter="protein"><span>💪</span> High Protein</button>
+            <button class="filter-btn" data-filter="gluten-free"><span>🌾</span> Gluten-Free</button> 
+        </div>
+
+
+        <datalist id="searchSuggestions">
+          <option value="onion"></option>
+          <option value="chicken"></option>
+          <option value="egg"></option>
+          <option value="flour"></option>
+          <option value="tomato"></option>
+          </datalist>
+
+        
+<button id="luckyBtn" class="action-btn">
+    random!
+  </button>
+
+
+        <div class="recipe-grid" id="recipeGrid">
+            <div class="no-results">
+                <h3>Search for recipes by ingredients</h3>
+                <p>Try "chicken, rice" or "flour, eggs"</p>
+            </div>
+        </div>
+
+        <div id="addRecipeBtn">+</div>
+    </div>
+
+    <div id="recipeFullView" style="display:none"> </div>
+   
+
+<!-- Simplified Auth Modals -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="text" id="loginUsername" placeholder="Username" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+      <div id="loginResult"></div>
+    </div>
+  </div>
+  
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <input type="text" id="regUsername" placeholder="Username" required>
+        <input type="email" id="regEmail" placeholder="Email" required>
+        <label for="regDob">Date of Birth</label>
+        <input type="date" id="regDob" placeholder="Date of Birth" required>
+        <input type="password" id="regPassword" placeholder="Password" required>
+        <button type="submit">Register</button>
+      </form>
+      <div id="registerResult"></div>
+    </div>
+  </div>
+
+    <!-- Recipe Form Modal -->
+<div id="recipeFormModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add Your Recipe</h2>
+            <form id="recipeForm">
+                <input type="text" name="name" placeholder="Recipe Name" required>
+                <textarea name="description" placeholder="Description"></textarea>
+                <textarea name="ingredients" placeholder="Ingredients (comma separated)" required></textarea>
+                <div class="nutrition-grid">
+                    <div>
+                      <label>Calories</label>
+                      <input type="number" name="calories" placeholder="kcal (optional)">
+                    </div>
+                    <div>
+                      <label>Protein (g)</label>
+                      <input type="number" step="0.1" name="protein" placeholder="g (optional)">
+                    </div>
+                    <div>
+                      <label>Carbs (g)</label>
+                      <input type="number" step="0.1" name="carbs" placeholder="g (optional)">
+                    </div>
+                    <div>
+                      <label>Fats (g)</label>
+                      <input type="number" step="0.1" name="fats" placeholder="g (optional)">
+                    </div>
+                  </div>
+                  
+                <textarea name="instructions" placeholder="Instructions (step by step)" required></textarea>
+                <div class="form-row">
+                    <input type="number" name="prep_time" placeholder="Prep time (mins)">
+                    <input type="number" name="cook_time" placeholder="Cook time (mins)">
+                    <select name="difficulty" required>
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+                <div class="image-upload">
+                    <label for="recipeImage">Upload Image (optional):</label>
+                    <input type="file" id="recipeImage" name="image" accept="image/*">
+                  </div>
+                <button type="submit">Submit Recipe</button>
+            </form>
+        </div>
+    </div>
+    
+
+    
+
+
+
+    <script src="docdoc.js"></script>
+    <!-- Load TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0"></script>
+
+    <script src="filters.js" defer></script> 
+    <script src="lucky.js" defer></script>
+    <script src="imagesearch.js"></script>
+
+    
+</body>
+</html>
