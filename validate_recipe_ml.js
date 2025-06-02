@@ -23,7 +23,7 @@ class RecipeValidator {
         try {
             console.log("Loading recipe validation model...");
             
-            // 1. Load pre-trained model (if available)
+            // 1. Load pre-trained model 
             try {
                 const modelUrl = 'model/recipe_model/model.json';
                 this.model = await tf.loadLayersModel(modelUrl);
@@ -146,7 +146,7 @@ class RecipeValidator {
     async validateRecipe(recipeId) {
         console.log(">>> validateRecipe called for ID:", recipeId);
         try {
-            // 1. Initialize if needed
+            // 1. Initialize 
             if (!this.initialized) {
                 const success = await this.init();
                 if (!success) throw new Error("Model initialization failed");
@@ -161,7 +161,7 @@ class RecipeValidator {
             const features = this.extractFeatures(data.recipe);
             const inputTensor = tf.tensor2d([features]);
             
-            // 4. Make prediction
+            // 4prediction
             const prediction = await this.model.predict(inputTensor).data();
             const score = Math.round(prediction[0] * 100);
             
