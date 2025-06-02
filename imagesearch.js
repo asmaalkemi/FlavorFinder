@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const fileName = file.name.toLowerCase();
             
-            // Get recipes (using your existing function)
+            // Get recipes
             const recipes = await fetchRecipes(); 
             
             // Find matches
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Display results
             if (matches.length > 0) {
-                displayRecipes(matches); // Use your existing function
+                displayRecipes(matches); 
                 showAlert(`Found ${matches.length} matches`, 'success');
             } else {
                 showAlert('No matches found', 'info');
