@@ -51,7 +51,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'validate_comment') {
     $stmt->execute();
 }
 
-// *** NEW: Get pending comments ***
+//Get pending comment
 $pendingComments = [];
 $stmt = $conn->prepare("SELECT c.*, r.name as recipe_name, u.username as user_name
                        FROM recipe_comments c
@@ -334,7 +334,7 @@ while ($row = $result->fetch_assoc()) {
             previewRow.style.display = previewRow.style.display === 'none' ? 'table-row' : 'none';
 
             if (previewRow.style.display !== 'none') {
-                // Run ML validation
+                // ML validation
                 validateRecipeML(id);
             }
         }
